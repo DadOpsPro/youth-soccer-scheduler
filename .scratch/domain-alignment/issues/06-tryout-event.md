@@ -15,8 +15,13 @@ Spring tryouts can overlap a winter indoor league, which is exactly the cross-Se
 - An Event can be a Tryout for an Age Group, with no Team.
 - Tryouts take part in Coach and Field double-booking like any other Event.
 - A conflict sentence describes one as, for example, "U12 tryout".
-- The README's CSV section documents how a Tryout row is written.
+- `events.csv` gains an `age_group` column. A Tryout row fills `age_group` and leaves `team_id` empty. A Game or Practice row fills `team_id` and leaves `age_group` empty. A row that fills both, or neither, is rejected with its line number.
+- The README's CSV section documents the new column and how a Tryout row is written.
 
-## Open questions
+## Decided
 
-- In `events.csv`, does a Tryout row put the Age Group in `team_id`, or does it get its own column?
+- **Tryouts get their own `age_group` column.** Reusing `team_id` for something that isn't a Team is exactly the kind of confusing shortcut the glossary exists to prevent.
+
+## Note
+
+The importer requires headers to match exactly, so every existing `events.csv`, including `sample-data/events.csv`, needs the new column added. Any `events.csv` without it will be refused.
