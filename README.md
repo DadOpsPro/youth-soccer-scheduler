@@ -169,6 +169,9 @@ exercise login and CSRF. Nothing else.
       carriage return, so a spreadsheet never treats a cell as a formula.
 - [ ] **Opponents on games** — a second team per game, rather than one.
 - [ ] **Persistence** — a real database behind `ScheduleRepository`.
+- [ ] **Import from club systems** — map ids from TeamSnap, GotSport, or a league
+      export to the Coordinator's stable Coach and Field ids
+      (see [ADR 0001](docs/adr/0001-conflicts-span-seasons.md)).
 - [ ] **CI** — run `mvn verify` on every push.
 - [ ] **Constraint solver** that generates a conflict-free draft schedule.
 
