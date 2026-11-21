@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Spring Boot artifacts must move together, so review them as one PR.
+      spring-boot:
+        patterns:
+          - "org.springframework.boot:*"
