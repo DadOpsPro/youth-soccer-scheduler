@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Youth Soccer Schedule Coordinator</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+
+<header>
+  <h1>Youth Soccer Schedule Coordinator</h1>
+  <form th:action="@{/logout}" method="post" class="who">
+    <span th:if="${currentUser}">Signed in as <span th:text="${currentUser}">operator</span></span>
+    <button type="submit">Sign out</button>
+  </form>
+</header>
+
+<div class="notice good" th:if="${imported}">Import finished.</div>
+<div class="notice bad" th:if="${param.uploadRejected != null}">
+  That upload was rejected before it could be read. Each file must be a .csv of 1 MB or less.
+</div>
+
+<h2>Import a schedule</h2>
+<p class="hint">
+  Four CSV files, with the exact column headers listed in the README. Times are read as local
+  times in <span th:text="${zone}">zone</span>. An import replaces whatever is loaded now.
+</p>
+
+<form th:action="@{/import}" method="post" enctype="multipart/form-data">
+  <fieldset>
+    <legend>CSV files</legend>
+    <div class="field">
+      <label for="teams">teams.csv</label>
+      <input type="file" id="teams" name="teams" accept=".csv" required>
+    </div>
+    <div class="field">
+      <label for="coaches">coaches.csv</label>
+      <input type="file" id="coaches" name="coaches" accept=".csv" required>
+    </div>
+    <div class="field">
+      <label for="venues">venues.csv</label>
+      <input type="file" id="venues" name="venues" accept=".csv" required>
+    </div>
+    <div class="field">
+      <label for="events">events.csv</label>
+      <input type="file" id="events" name="events" accept=".csv" required>
+    </div>
+    <button type="submit">Import and check</button>
+  </fieldset>
+</form>
+
+<div th:if="${not #lists.isEmpty(problems)}">
+  <h2>Skipped input</h2>
+  <p class="hint">These files or rows were left out. Everything else was imported.</p>
+  <table>
+    <thead>
+    <tr>
+      <th scope="col">Where</th>
+      <th scope="col">Problem</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="problem : ${problems}">
+      <td th:text="${problem.location()}">events.csv line 4</td>
+      <td th:text="${problem.message()}">reason</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Conflicts</h2>
+<div class="notice" th:if="${schedule.events().isEmpty()}">
+  No schedule is loaded yet. Import the four CSV files above to check for conflicts.
+</div>
+<div class="notice good" th:if="${not schedule.events().isEmpty() and #lists.isEmpty(conflicts)}">
+  No conflicts found in <span th:text="${#lists.size(schedule.events())}">0</span> events.
+</div>
+<ul class="conflicts" th:if="${not #lists.isEmpty(conflicts)}">
+  <li th:each="conflict : ${conflicts}">
+    <span class="kind" th:text="${conflict.type().label()}">Conflict</span>
+    <div th:text="${conflict.explanation()}">Explanation</div>
+  </li>
+</ul>
+
+<div th:if="${not schedule.events().isEmpty()}">
+  <h2>Loaded schedule</h2>
+  <p class="hint">
+    <span th:text="${#lists.size(schedule.teams())}">0</span> teams,
+    <span th:text="${#lists.size(schedule.coaches())}">0</span> coaches,
+    <span th:text="${#lists.size(schedule.venues())}">0</span> fields,
+    <span th:text="${#lists.size(schedule.events())}">0</span> events.
+  </p>
+  <table>
+    <thead>
+    <tr>
+      <th scope="col">When</th>
+      <th scope="col">Type</th>
+      <th scope="col">Team</th>
+      <th scope="col">Coach</th>
+      <th scope="col">Field</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="row : ${eventRows}">
+      <td th:text="${row.when()}">Tue Mar 3, 6:00 PM to 7:00 PM</td>
+      <td th:text="${row.type()}">practice</td>
+      <td th:text="${row.team()}">U10 Blue</td>
+      <td th:text="${row.coach()}">Coach</td>
+      <td th:text="${row.venue()}">Field</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  <span>Rules checked:</span>
+  <span th:each="rule, iter : ${ruleNames}">
+    <span th:text="${rule}">rule</span><span th:if="${not iter.last}">,</span>
+  </span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Something went wrong</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+
+<div class="login">
+  <h1>Something went wrong</h1>
+  <!-- Status and reason phrase only. Messages, exception types, and stack traces
+       are switched off in application.yml so nothing internal is shown here. -->
+  <p class="notice bad">
+    <span th:text="${status}">500</span>
+    <span th:text="${error}">Error</span>
+  </p>
+  <p><a th:href="@{/}">Back to the schedule</a></p>
+</div>
+
+</body>
+</html>

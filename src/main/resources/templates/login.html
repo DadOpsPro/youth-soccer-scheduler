@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+
+<div class="login">
+  <h1>Youth Soccer Schedule Coordinator</h1>
+
+  <div class="notice bad" th:if="${param.error != null}">Sign-in failed. Check the username and password.</div>
+  <div class="notice" th:if="${param.loggedOut != null}">You are signed out.</div>
+
+  <form th:action="@{/login}" method="post">
+    <fieldset>
+      <legend>Sign in</legend>
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+      </div>
+      <button type="submit">Sign in</button>
+    </fieldset>
+  </form>
+</div>
+
+</body>
+</html>
