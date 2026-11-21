@@ -4,7 +4,7 @@
 
 ### Issue tracker
 
-Issues are tracked in GitHub Issues (`DadOpsPro/youth-soccer-scheduler`) via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+Issues are tracked as local markdown files under `.scratch/` (not GitHub, because the repo is public). See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
