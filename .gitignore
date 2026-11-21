@@ -1,0 +1,27 @@
+# Build output
+target/
+*.jar
+*.war
+
+# Secrets / local config
+.env
+.env.local
+*.local.properties
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+nbproject/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tooling
+dependency-check-report.*
